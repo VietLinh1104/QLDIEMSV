@@ -57,4 +57,9 @@ public class Subject {
     public void setGhiChu(String ghiChu) {
         this.ghiChu = ghiChu;
     }
+
+    @Override
+    public String toString() {
+        return tenHocPhan;
+    }
 }
