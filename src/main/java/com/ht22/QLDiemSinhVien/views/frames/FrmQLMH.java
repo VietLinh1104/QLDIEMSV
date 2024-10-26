@@ -434,7 +434,7 @@ public class FrmQLMH extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Xóa "+count+" môn học thành công!!");
                 loadDatatoJTable();
         }   else {
-                JOptionPane.showMessageDialog(rootPane, "Xóa môn học thất bại!!");
+                JOptionPane.showMessageDialog(rootPane, "Xóa môn học thất bại!!!");
             }
         }
     }//GEN-LAST:event_btnRemoveActionPerformed
