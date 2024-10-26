@@ -538,7 +538,7 @@ public class FrmQLMH extends javax.swing.JFrame {
                 int selectedRow = lstCategory.getSelectedIndex();
 
                 if (selectedRow >= 0) {
-
+//tests
                     String maKhoa = lstCategory.getSelectedValue().getMaKhoa();
                     List<Subject> subjects = DAOSubject.getAllByKhoaID(maKhoa);
 
