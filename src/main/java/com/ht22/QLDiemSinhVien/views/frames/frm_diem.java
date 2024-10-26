@@ -5,10 +5,8 @@
 package com.ht22.QLDiemSinhVien.views.frames;
 
 import com.ht22.QLDiemSinhVien.DAO.DAODiem;
-import com.ht22.QLDiemSinhVien.DAO.SubjectDao;
+import com.ht22.QLDiemSinhVien.DAO.DAOSubject;
 import com.ht22.QLDiemSinhVien.entity.Diem;
-import com.ht22.QLDiemSinhVien.entity.Khoa;
-import com.ht22.QLDiemSinhVien.entity.Lop;
 import com.ht22.QLDiemSinhVien.entity.Subject;
 
 import javax.swing.*;
@@ -23,7 +21,7 @@ import java.util.List;
  */
 public class frm_diem extends javax.swing.JFrame {
 
-    SubjectDao subjectDao = new SubjectDao();
+    DAOSubject DAOSubject = new DAOSubject();
     DAODiem diemDAO = new DAODiem();
     private String tableValueSelected;
 
@@ -38,13 +36,14 @@ public class frm_diem extends javax.swing.JFrame {
 //    setModel Table
     public void setModelTable(List<Diem> diemList ){
         DefaultTableModel tableModel = new DefaultTableModel(
-                new String[]{"Sinh Viên", "Học Phần", "Lần Thi", "GK", "CK", "Điểm chữ"}, 0
+                new String[]{"Mã Điểm","Sinh Viên", "Học Phần", "Lần Thi", "GK", "CK", "Điểm chữ"}, 0
         );
 
 
         for (Diem diem : diemList) {
             // Thêm một hàng với các giá trị lấy từ đối tượng Lop
             tableModel.addRow(new Object[]{
+                    diem.getMaDiem(),
                     diem.getMaSV(),
                     diem.getMaHocPhan(),
                     diem.getSolanthi(),
@@ -73,7 +72,7 @@ public class frm_diem extends javax.swing.JFrame {
 
                 if (selectedRow >= 0) { // Kiểm tra xem có hàng nào được chọn không
 
-                    String maDiem = jTableDiem.getValueAt(selectedRow, 1).toString();
+                    String maDiem = jTableDiem.getValueAt(selectedRow, 0).toString();
                     tableValueSelected = maDiem;
                 }
             }
@@ -83,19 +82,19 @@ public class frm_diem extends javax.swing.JFrame {
 //  set List
     private void initList(){
         //        List Khoa
-        List<Diem> diems = diemDAO.getAll();
+        List<Subject> subjects = DAOSubject.getAll();
 
         // Set List data for models
-        DefaultListModel<Diem> models = new DefaultListModel<>();
+        DefaultListModel<Subject> models = new DefaultListModel<>();
 
 //      add data from khoas list for models
-        for (Diem diem : diems){
-            models.addElement(diem);
+        for (Subject subject : subjects){
+            models.addElement(subject);
         }
 
 //        Set models to List
         jListMonHoc.setModel(models);
-        jScrollPane2.setViewportView(jListMonHoc);
+        jScrollPane1.setViewportView(jListMonHoc);
 
 //        handle click row list
         jListMonHoc.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -117,20 +116,31 @@ public class frm_diem extends javax.swing.JFrame {
 
     }
 
-//    set models data for combobox
-    public void initComboBox(){
-        List<Subject> subjects = subjectDao.getAll();
+    // Phương thức generic để tạo model cho ComboBox từ bất kỳ danh sách nào
+    public <T> DefaultComboBoxModel<T> createModelComboBoxDiem(List<T> items) {
+        // Khởi tạo model
+        DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 
-//        set models
-        DefaultComboBoxModel<Subject> model = new DefaultComboBoxModel<>();
-
-        // set data from khoa to model
-        for (Subject subject : subjects){
-            model.addElement(subject);  // Thêm đối tượng Khoa
+        // Duyệt qua danh sách và thêm vào model
+        for (T item : items) {
+            model.addElement(item); // Thêm phần tử vào ComboBoxModel
         }
 
-        // get in to Combobox
-        jComboBoxDiem.setModel(model);
+        return model;
+    }
+
+    // Phương thức khởi tạo ComboBox với dữ liệu
+    public void initComboBox() {
+        List<Subject> subjects = DAOSubject.getAll();
+//        List<SinhVien> sinhvien = DaoSinhVien.getAll();
+
+        // Sử dụng phương thức generic cho cả hai loại đối tượng
+        DefaultComboBoxModel<Subject> modelSJ = createModelComboBoxDiem(subjects);
+//        DefaultComboBoxModel<SinhVien> modelSV = createModelComboBoxDiem(sinhvien);
+
+        // Gán model cho các JComboBox
+        jComboBoxDiem.setModel(modelSJ);
+//        jComboBoxMaSV.setModel(modelSV);
     }
 
 
@@ -143,7 +153,7 @@ public class frm_diem extends javax.swing.JFrame {
         jPanelMonHoc = new javax.swing.JPanel();
         jLabelMonHoc = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListMonHoc = new JList<Diem>();
+        jListMonHoc = new JList<Subject>();
         jButtonMonHoc = new javax.swing.JButton();
         jPanelLop = new javax.swing.JPanel();
         jLabelDiem = new javax.swing.JLabel();
@@ -171,6 +181,9 @@ public class frm_diem extends javax.swing.JFrame {
         jLabelInputTenLop2 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextPaneInputDiemChu = new javax.swing.JTextPane();
+        jPanelInputMaLop2 = new javax.swing.JPanel();
+        jLabelInputKhoa1 = new javax.swing.JLabel();
+        jComboBoxMaSV = new javax.swing.JComboBox<>();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuHome = new javax.swing.JMenu();
         jMenuBack = new javax.swing.JMenu();
@@ -180,11 +193,10 @@ public class frm_diem extends javax.swing.JFrame {
         jLabelMonHoc.setText("Mon Hoc");
 
 
-
         jButtonMonHoc.setText("Quản Lý Môn Học");
         jButtonMonHoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                jButtonMonHocActionPerformed(evt);
+                    jButtonQuanLyKhoaActionPerformed(evt);
             }
         });
 
@@ -255,7 +267,6 @@ public class frm_diem extends javax.swing.JFrame {
         jLabelInputKhoa.setText("Mã học phần");
 
 
-
         javax.swing.GroupLayout jPanelInputMaLop1Layout = new javax.swing.GroupLayout(jPanelInputMaLop1);
         jPanelInputMaLop1.setLayout(jPanelInputMaLop1Layout);
         jPanelInputMaLop1Layout.setHorizontalGroup(
@@ -266,7 +277,7 @@ public class frm_diem extends javax.swing.JFrame {
                     .addComponent(jLabelInputKhoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelInputMaLop1Layout.createSequentialGroup()
                         .addComponent(jComboBoxDiem, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 12, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelInputMaLop1Layout.setVerticalGroup(
@@ -276,7 +287,7 @@ public class frm_diem extends javax.swing.JFrame {
                 .addComponent(jLabelInputKhoa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBoxDiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jButtonThemDiem.setText("Thêm Điểm");
@@ -294,6 +305,7 @@ public class frm_diem extends javax.swing.JFrame {
         });
 
         jLabelInputTenLop1.setText("Điểm cuối kỳ");
+
         jScrollPane5.setViewportView(jTextPaneInputCuoiKy);
 
         javax.swing.GroupLayout jPanelInputTenLop1Layout = new javax.swing.GroupLayout(jPanelInputTenLop1);
@@ -342,6 +354,38 @@ public class frm_diem extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabelInputKhoa1.setText("Mã Sinh Viên");
+
+        jComboBoxMaSV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SV001", "SV002", "SV003", "SV004" }));
+        jComboBoxMaSV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMaSVActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelInputMaLop2Layout = new javax.swing.GroupLayout(jPanelInputMaLop2);
+        jPanelInputMaLop2.setLayout(jPanelInputMaLop2Layout);
+        jPanelInputMaLop2Layout.setHorizontalGroup(
+            jPanelInputMaLop2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInputMaLop2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelInputMaLop2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelInputKhoa1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelInputMaLop2Layout.createSequentialGroup()
+                        .addComponent(jComboBoxMaSV, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelInputMaLop2Layout.setVerticalGroup(
+            jPanelInputMaLop2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInputMaLop2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelInputKhoa1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxMaSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanelLopActionLayout = new javax.swing.GroupLayout(jPanelLopAction);
         jPanelLopAction.setLayout(jPanelLopActionLayout);
         jPanelLopActionLayout.setHorizontalGroup(
@@ -362,7 +406,9 @@ public class frm_diem extends javax.swing.JFrame {
                             .addComponent(jPanelInputMaLop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanelInputTenLop2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelInputMaLop1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanelLopActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanelInputMaLop1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanelInputMaLop2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelLopActionLayout.setVerticalGroup(
@@ -375,7 +421,8 @@ public class frm_diem extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelLopActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelInputTenLop1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanelInputTenLop2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelInputTenLop2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelInputMaLop2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelLopActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonXoaDiem)
@@ -391,7 +438,7 @@ public class frm_diem extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelLopLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabelDiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
                     .addComponent(jPanelLopAction, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
@@ -464,10 +511,10 @@ public class frm_diem extends javax.swing.JFrame {
     private void jButtonQuanLyKhoaActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
         // Ẩn frame hiện tại
-//        setVisible(false);
+        setVisible(false);
 
         // Hiển thị frame mới
-        new frm_khoa().setVisible(true);
+        new FrmQLMH().setVisible(true);
     }                                             
 
     private void jComboBoxDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDiemActionPerformed
@@ -476,8 +523,9 @@ public class frm_diem extends javax.swing.JFrame {
 
     private void jButtonXoaDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaDiemActionPerformed
         // TODO add your handling code here:
-//        lopDAO.delete(tableValueSelected);
-//        initTable();
+        diemDAO.delete(tableValueSelected);
+        System.out.println(tableValueSelected);
+        initTable();
     }//GEN-LAST:event_jButtonXoaDiemActionPerformed
 
     private void jButtonThemDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemDiemActionPerformed
@@ -492,9 +540,12 @@ public class frm_diem extends javax.swing.JFrame {
         Subject selectedDiem = (Subject) jComboBoxDiem.getSelectedItem();
         String maHocPhan = selectedDiem.getMaHocPhan();
 
+        String selectedMaSV = (String) jComboBoxMaSV.getSelectedItem();
+//        String maHocPhan = selectedMaSV.getMaHocPhan();
+
 
         //  Create object from form input
-        Diem diem = new Diem( 0,  "SV001",  maHocPhan,  Integer.parseInt(solanthi),  Float.parseFloat(diemgiuaki), Float.parseFloat( diemcuoiki),  diemchu);
+        Diem diem = new Diem( 0,  selectedMaSV,  maHocPhan,  Integer.parseInt(solanthi),  Float.parseFloat(diemgiuaki), Float.parseFloat( diemcuoiki),  diemchu);
 
         try {
 //            DAO insert
@@ -502,6 +553,7 @@ public class frm_diem extends javax.swing.JFrame {
         } catch (SQLIntegrityConstraintViolationException e) {
             // Lỗi trùng khóa chính (hoặc unique key)
             JOptionPane.showMessageDialog(this, "Mã lớp đã tồn tại. Vui lòng nhập mã lớp khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         } catch (SQLException e) {
             // Lỗi chung liên quan đến cơ sở dữ liệu
             JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi thêm dữ liệu: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -513,6 +565,10 @@ public class frm_diem extends javax.swing.JFrame {
         // Cập nhật lại bảng sau khi thêm thành công
         initTable();
     }//GEN-LAST:event_jButtonThemDiemActionPerformed
+
+    private void jComboBoxMaSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMaSVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxMaSVActionPerformed
 
     /**
      * @param args the command line arguments
@@ -555,19 +611,22 @@ public class frm_diem extends javax.swing.JFrame {
     private javax.swing.JButton jButtonThemDiem;
     private javax.swing.JButton jButtonXoaDiem;
     private JComboBox<Subject> jComboBoxDiem;
+    private javax.swing.JComboBox<String> jComboBoxMaSV;
     private javax.swing.JLabel jLabelDiem;
     private javax.swing.JLabel jLabelInputKhoa;
+    private javax.swing.JLabel jLabelInputKhoa1;
     private javax.swing.JLabel jLabelInputMaLop;
     private javax.swing.JLabel jLabelInputTenLop;
     private javax.swing.JLabel jLabelInputTenLop1;
     private javax.swing.JLabel jLabelInputTenLop2;
     private javax.swing.JLabel jLabelMonHoc;
-    private JList<Diem> jListMonHoc;
+    private JList<Subject> jListMonHoc;
     private javax.swing.JMenu jMenuBack;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuHome;
     private javax.swing.JPanel jPanelInputMaLop;
     private javax.swing.JPanel jPanelInputMaLop1;
+    private javax.swing.JPanel jPanelInputMaLop2;
     private javax.swing.JPanel jPanelInputTenLop;
     private javax.swing.JPanel jPanelInputTenLop1;
     private javax.swing.JPanel jPanelInputTenLop2;

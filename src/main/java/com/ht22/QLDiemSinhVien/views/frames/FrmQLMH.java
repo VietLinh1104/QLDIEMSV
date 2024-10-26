@@ -5,9 +5,8 @@
 package com.ht22.QLDiemSinhVien.views.frames;
 
 import com.ht22.QLDiemSinhVien.DAO.DAOKhoa;
-import com.ht22.QLDiemSinhVien.DAO.SubjectDao;
+import com.ht22.QLDiemSinhVien.DAO.DAOSubject;
 import com.ht22.QLDiemSinhVien.entity.Khoa;
-import com.ht22.QLDiemSinhVien.entity.Lop;
 import com.ht22.QLDiemSinhVien.entity.Subject;
 
 import java.sql.SQLException;
@@ -23,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrmQLMH extends javax.swing.JFrame {
 //    git test
     DAOKhoa categoryDao = new DAOKhoa();
-    SubjectDao subjectDao = new SubjectDao();
+    DAOSubject DAOSubject = new DAOSubject();
     DefaultTableModel tblModelSubject = null;
     List<Subject> listSubject = new ArrayList<>();
     Subject subjectSelected = null;
@@ -389,7 +388,7 @@ public class FrmQLMH extends javax.swing.JFrame {
             Subject sj =  new Subject( maHocPhan,  maKhoa,  tenHocPhan,  Integer.parseInt(soTinChi),  ghiChu);
             try {
 //            DAO insert
-                subjectDao.insert(sj);
+                DAOSubject.insert(sj);
                 loadDatatoJTable();
             } catch (SQLIntegrityConstraintViolationException e) {
                 // Lỗi trùng khóa chính (hoặc unique key)
@@ -555,7 +554,7 @@ public class FrmQLMH extends javax.swing.JFrame {
                 if (selectedRow >= 0) {
 
                     String maKhoa = lstCategory.getSelectedValue().getMaKhoa();
-                    List<Subject> subjects = subjectDao.getAllByKhoaID(maKhoa);
+                    List<Subject> subjects = DAOSubject.getAllByKhoaID(maKhoa);
 
 //                    show data table by id of listSelected
                     DefaultTableModel tblModelSubject = new DefaultTableModel();
@@ -598,7 +597,7 @@ public class FrmQLMH extends javax.swing.JFrame {
         DefaultTableModel tblModelSubject = new DefaultTableModel();
         Object[] columnTilte = {"Mã Học Phần","Mã Khoa","Tên Học Phần", "Số Tín Chỉ", "Ghi Chú"};
         tblModelSubject.setColumnIdentifiers(columnTilte);
-        listSubject = subjectDao.getAll();
+        listSubject = DAOSubject.getAll();
         Object[] rowData = null;
 
 

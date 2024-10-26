@@ -1,7 +1,6 @@
 package com.ht22.QLDiemSinhVien.DAO;
 
 import com.ht22.QLDiemSinhVien.database.ConnectDB;
-import com.ht22.QLDiemSinhVien.entity.Lop;
 import com.ht22.QLDiemSinhVien.entity.Subject;
 
 import java.sql.Connection;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SubjectDao implements DaoInterface<Subject>{
+public class DAOSubject implements DaoInterface<Subject>{
     @Override
     public List<Subject> getAll() {
         List<Subject> subjects = new ArrayList<>();
