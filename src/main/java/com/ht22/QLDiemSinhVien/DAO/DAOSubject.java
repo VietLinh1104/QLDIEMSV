@@ -83,7 +83,16 @@ public class DAOSubject implements DaoInterface<Subject>{
     }
 
     @Override
-    public Boolean delete(String maLop) {
-        return null;
+    public Boolean delete(String maHocPhan) {
+        String query = "DELETE FROM hoc_phan WHERE maHocPhan = ?";
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, maHocPhan); // Giả sử lop có phương thức getMaLop()
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            // Thay vì chỉ in stack trace, ném ngoại lệ ra ngoài để nơi gọi có thể bắt
+            e.printStackTrace();
+        }
+        return true;
     }
 }

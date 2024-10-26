@@ -26,7 +26,7 @@ public class FrmQLMH extends javax.swing.JFrame {
     DefaultTableModel tblModelSubject = null;
     List<Subject> listSubject = new ArrayList<>();
     Subject subjectSelected = null;
-    int[] subjectIdSelected = null;
+    String[] subjectIdSelected = null;
     DefaultListModel<Khoa> listModelCategory = null;
 
 
@@ -359,20 +359,6 @@ public class FrmQLMH extends javax.swing.JFrame {
 
     private void lstCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstCategoryMouseClicked
         // TODO add your handling code here:
-        //categorySelected = lstCategory.getSelectedValue();
-//        btnUpdateCategory.setEnabled(true);
-//        btnUpdate.setEnabled(false);
-//        btnRemoveCategory.setEnabled(true);
-//        btnRemove.setEnabled(false);
-//        int[] index_Cate_Selected = lstCategory.getSelectedIndices();
-//        int[] categoryId = new int[index_Cate_Selected.length];
-//        for (int i = 0; i < index_Cate_Selected.length; i++) {
-//            categoryId[i] = listModelCategory.get(index_Cate_Selected[i]).getId();
-//        }
-//        //lstCategory.getSelectedIndices()
-//        //listSubject = subjectDao.getByCategoryId(categorySelected.getId());
-//        loadDatatoJTableByCategoryId(categoryId);
-
     }//GEN-LAST:event_lstCategoryMouseClicked
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {//GEN-FIRST:event_btnSaveActionPerformed
@@ -405,68 +391,45 @@ public class FrmQLMH extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-//        int categoryId =((Category)cbCategory.getSelectedItem()).getId();
-//        String maHocPhan = txtMaHocPhan.getText().trim();
-//        String tenHocPhan = txtTenHocPhan.getText().trim();
-//        String soTinChi = txtSoTinChi.getText().trim();
-//        String ghiChu = taGhiChu.getText().trim();
-//        if (maHocPhan.equals("") || tenHocPhan.equals("") || soTinChi.equals("") || ghiChu.equals("") ) {
-//            JOptionPane.showMessageDialog(rootPane, "Bạn phải nhập đủ thông tin!!!");
-//        } else {
-//            boolean isUpdate = subjectDao.update(new Subject(subjectSelected.getId(), categoryId, maHocPhan, tenHocPhan, Integer.parseInt(soTinChi), ghiChu));
-//            if (isUpdate) {
-//                JOptionPane.showMessageDialog(rootPane, "Sửa môn học thành công!!");
-//                loadDatatoJTable();
-//        }   else {
-//                JOptionPane.showMessageDialog(rootPane, "Sửa môn học thất bại!!");
-//            }
-//        }
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         // TODO add your handling code here:
-//        if (JOptionPane.showConfirmDialog(rootPane, "Bạn thật sự muốn xóa???", "Cảnh báo xóa!!!", JOptionPane.YES_OPTION) != 0) {
-//        } else {
-//            //boolean isDelete = subjectDao.delete(subjectSelected);
-//            Subject deleteSubject = null;
-//            int count = 0;
-//            for (int i = 0; i < subjectIdSelected.length; i++) {
-//                deleteSubject = new Subject(subjectIdSelected[i], 0, "", "", 0, "");
-//                if (subjectDao.delete(deleteSubject)) {
-//                    count++;
-//                }
-//            }
-//            if (count > 0) {
-//                JOptionPane.showMessageDialog(rootPane, "Xóa "+count+" môn học thành công!!");
-//                loadDatatoJTable();
-//        }   else {
-//                JOptionPane.showMessageDialog(rootPane, "Xóa môn học thất bại!!");
-//            }
-//        }
+        if (JOptionPane.showConfirmDialog(rootPane, "Bạn thật sự muốn xóa???", "Cảnh báo xóa!!!", JOptionPane.YES_OPTION) != 0) {
+        } else {
+            //boolean isDelete = subjectDao.delete(subjectSelected);
+            Subject deleteSubject = null;
+            int count = 0;
+            for (int i = 0; i < subjectIdSelected.length; i++) {
+                deleteSubject = new Subject(subjectIdSelected[i], "", "", 0, "");
+                if (DAOSubject.delete(deleteSubject.getMaHocPhan())) {
+                    count++;
+                }
+            }
+            if (count > 0) {
+                JOptionPane.showMessageDialog(rootPane, "Xóa "+count+" môn học thành công!!");
+                loadDatatoJTable();
+        }   else {
+                JOptionPane.showMessageDialog(rootPane, "Xóa môn học thất bại!!");
+            }
+        }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
+//    khi click vào bảng thì lưu dữ liệu vào subjectSelected để xóa hoặc sửa
     private void tblSubjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSubjectMouseClicked
         // TODO add your handling code here:
-//        btnUpdateCategory.setEnabled(false);
-//        btnUpdate.setEnabled(true);
-//        btnRemoveCategory.setEnabled(false);
-//        btnRemove.setEnabled(true);
-//        int rowSelected = tblSubject.getSelectedRow();
-//        subjectSelected = listSubject.get(rowSelected);
-//        txtMaHocPhan.setInputVerifier(new CheckMaHocPhanVerify(subjectSelected));
-//        categorySelected =  categoryDao.get(subjectSelected.getCategoryId()).get();
-//        loadDatatoCombox();
-//        txtMaHocPhan.setText(subjectSelected.getMaHocPhan());
-//        txtTenHocPhan.setText(subjectSelected.getTenHocPhan());
-//        txtSoTinChi.setText(String.valueOf(subjectSelected.getSoTinChi()));
-//        taGhiChu.setText(subjectSelected.getGhiChu());
-//        int[] indexSelected = tblSubject.getSelectedRows();
-//        subjectIdSelected = new int [indexSelected.length];
-//        for (int i = 0; i < indexSelected.length; i++) {
-//            subjectIdSelected[i] = listSubject.get(i).getId();
-//
-//        }
+        int[] selectedRows = tblSubject.getSelectedRows(); // Lấy chỉ số của các hàng được chọn
+
+        if (selectedRows.length > 0) { // Kiểm tra xem có hàng nào được chọn không
+            subjectIdSelected = new String[selectedRows.length]; // Tạo mảng với kích thước bằng số dòng được chọn
+
+            // Duyệt qua các hàng được chọn và lưu vào mảng
+            for (int i = 0; i < selectedRows.length; i++) {
+                String maLop = tblSubject.getValueAt(selectedRows[i], 0).toString();
+                subjectIdSelected[i] = maLop; // Lưu giá trị vào mảng
+            }
+        }
     }//GEN-LAST:event_tblSubjectMouseClicked
 
     /**
