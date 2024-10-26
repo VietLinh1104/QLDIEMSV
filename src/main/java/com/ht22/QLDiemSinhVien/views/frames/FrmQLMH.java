@@ -391,6 +391,29 @@ public class FrmQLMH extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        System.out.println(subjectIdSelected[0]);
+//        System.out.println("test");
+        String categoryId =((Khoa)cbCategory.getSelectedItem()).getMaKhoa();
+        String maHocPhan = txtMaHocPhan.getText().trim();
+        String tenHocPhan = txtTenHocPhan.getText().trim();
+        String soTinChi = txtSoTinChi.getText().trim();
+        String ghiChu = taGhiChu.getText().trim();
+        if(subjectIdSelected.length > 1){
+            JOptionPane.showMessageDialog(rootPane, "Chỉ được chọn 1 dữ liệu!!!");
+        }else{
+
+            if (maHocPhan.equals("") || tenHocPhan.equals("") || soTinChi.equals("") || ghiChu.equals("") ) {
+                JOptionPane.showMessageDialog(rootPane, "Bạn phải nhập đủ thông tin!!!");
+            } else {
+                boolean isUpdate = DAOSubject.update(new Subject(subjectIdSelected[0] , categoryId, tenHocPhan, Integer.parseInt(soTinChi), ghiChu));
+                if (isUpdate) {
+                    JOptionPane.showMessageDialog(rootPane, "Sửa môn học thành công!!");
+                    loadDatatoJTable();
+                }   else {
+                    JOptionPane.showMessageDialog(rootPane, "Sửa môn học thất bại!!");
+                }
+            }
+        }
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
