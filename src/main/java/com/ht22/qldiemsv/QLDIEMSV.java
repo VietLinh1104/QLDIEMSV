@@ -11,6 +11,6 @@ package com.ht22.qldiemsv;
 public class QLDIEMSV {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+
     }
 }
