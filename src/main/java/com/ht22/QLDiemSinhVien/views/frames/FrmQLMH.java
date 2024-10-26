@@ -550,7 +550,7 @@ public class FrmQLMH extends javax.swing.JFrame {
 
 
                     for (Subject s : subjects) {
-                        rowData = new Object[]{s.getTenHocPhan(), s.getMaKhoa(), s.getTenHocPhan(), s.getSoTinChi(), s.getGhiChu()};
+                        rowData = new Object[]{s.getMaHocPhan(), s.getMaKhoa(), s.getTenHocPhan(), s.getSoTinChi(), s.getGhiChu()};
                         tblModelSubject.addRow(rowData);
                     }
                     tblSubject.setModel(tblModelSubject);
