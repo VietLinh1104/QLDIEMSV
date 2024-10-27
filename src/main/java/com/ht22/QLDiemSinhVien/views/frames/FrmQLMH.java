@@ -381,19 +381,26 @@ public class FrmQLMH extends javax.swing.JFrame {
 //    nút save
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+        // lấy dữ liệu từ giao diện người dùng nhập vào
         String maKhoa =((Khoa)cbCategory.getSelectedItem()).getMaKhoa();
         String maHocPhan = txtMaHocPhan.getText().trim();
         String tenHocPhan = txtTenHocPhan.getText().trim();
         String soTinChi = txtSoTinChi.getText().trim();
         String ghiChu = taGhiChu.getText().trim();
+        // kiểm tra xem có ô nào để trống, để trống thì thông báo nhập đủ thông tin
         if (maHocPhan.equals("") || tenHocPhan.equals("") || soTinChi.equals("") || ghiChu.equals("") ) {
             JOptionPane.showMessageDialog(rootPane, "Bạn phải nhập đủ thông tin!!!");
         } else {
+            // tạo đối tượng Subject với dữ liệu maHocPhan...
             Subject sj =  new Subject( maHocPhan,  maKhoa,  tenHocPhan,  Integer.parseInt(soTinChi),  ghiChu);
             try {
 //            DAO insert
+                // gọi phương thức insert của DaoSubject để thêm môn học vào CSDL, nếu thêm thành công thì bảng auto load lại dữ liệu để hiển thị lên bảng
                 DAOSubject.insert(sj);
+                JOptionPane.showMessageDialog(rootPane, "Thêm môn học thành công!!!");
+
                 loadDatatoJTable();
+                // cài các ngoại lệ
             } catch (SQLIntegrityConstraintViolationException e) {
                 // Lỗi trùng khóa chính (hoặc unique key)
                 JOptionPane.showMessageDialog(this, "Mã lớp đã tồn tại. Vui lòng nhập mã lớp khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -412,20 +419,24 @@ public class FrmQLMH extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println(subjectIdSelected[0]);
 //        System.out.println("test");
+        // lấy dữ liệu từ giao diện người dùng nhập vào
         String categoryId =((Khoa)cbCategory.getSelectedItem()).getMaKhoa();
         String maHocPhan = txtMaHocPhan.getText().trim();
         String tenHocPhan = txtTenHocPhan.getText().trim();
         String soTinChi = txtSoTinChi.getText().trim();
         String ghiChu = taGhiChu.getText().trim();
         if(subjectIdSelected.length > 1){
+            // kiểm tra số lượng môn học được chọn, nếu nhiều hơn 1 thì thông báo lôi, yêu cầu chọn 1
             JOptionPane.showMessageDialog(rootPane, "Chỉ được chọn 1 dữ liệu!!!");
         }else{
-
+            // kiểm tra xem các ô có bị bỏ trống không, nếu bỏ trống thì hiện thống báo
             if (maHocPhan.equals("") || tenHocPhan.equals("") || soTinChi.equals("") || ghiChu.equals("") ) {
                 JOptionPane.showMessageDialog(rootPane, "Bạn phải nhập đủ thông tin!!!");
             } else {
                 boolean isUpdate = DAOSubject.update(new Subject(subjectIdSelected[0] , categoryId, tenHocPhan, Integer.parseInt(soTinChi), ghiChu));
-                if (isUpdate) {
+                // tạo đối tượng Subject mới với các gtri,,, sau đó gọi phương thức update của DAOSubject để thực hiện cập nhật trong CSDL\
+                // kết quả đc lưu vào biến isUpdate
+                if (isUpdate) {  // nếu isUpdate = true thì in ra thông báo và load lại dữ liệu vào bảng
                     JOptionPane.showMessageDialog(rootPane, "Sửa môn học thành công!!");
                     loadDatatoJTable();
                 }   else {
@@ -439,18 +450,23 @@ public class FrmQLMH extends javax.swing.JFrame {
 //    nút xóa
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         // TODO add your handling code here:
+        // khi ấn xóa thì hiển thị cảnh báo
         if (JOptionPane.showConfirmDialog(rootPane, "Bạn thật sự muốn xóa???", "Cảnh báo xóa!!!", JOptionPane.YES_OPTION) != 0) {
         } else {
             //boolean isDelete = subjectDao.delete(subjectSelected);
             Subject deleteSubject = null;
             int count = 0;
+            // khởi tạo biến deleteSubject là 1 đối tượng Subject, dùng để đại diện cho môn học cần xóa
+            // ban đầu được đặt là null, count là biến đếm để ghi lại số môn học xóa thành công
             for (int i = 0; i < subjectIdSelected.length; i++) {
                 deleteSubject = new Subject(subjectIdSelected[i], "", "", 0, "");
                 if (DAOSubject.delete(deleteSubject.getMaHocPhan())) {
                     count++;
+                    //DAOSubject.delete(deleteSubject.getMaHocPhan()) thực hiện xóa môn học khỏi CSDL dựa trên mã môn
+                    // nếu thành công thì count tăng lên 1
                 }
             }
-            if (count > 0) {
+            if (count > 0) {  // nếu count >0 thì hiển thị tbao xóa thành công và load lại dữ liệu bảng
                 JOptionPane.showMessageDialog(rootPane, "Xóa "+count+" môn học thành công!!");
                 loadDatatoJTable();
         }   else {

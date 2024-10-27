@@ -8,8 +8,8 @@ import com.ht22.QLDiemSinhVien.DAO.DAODiem;
 import com.ht22.QLDiemSinhVien.DAO.DAOSubject;
 import com.ht22.QLDiemSinhVien.entity.Diem;
 import com.ht22.QLDiemSinhVien.entity.Subject;
-import com.nhom2.qlsv.dao.SinhVienDAOImpl;
-import com.nhom2.qlsv.model.SinhVien;
+import com.ht22.QLDiemSinhVien.DAO.SinhVienDAOImpl;
+import com.ht22.QLDiemSinhVien.entity.SinhVien;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

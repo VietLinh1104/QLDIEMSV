@@ -6,9 +6,9 @@ package com.ht22.QLDiemSinhVien.views.frames;
 
 import com.ht22.QLDiemSinhVien.DAO.DAOHocPhi;
 import com.ht22.QLDiemSinhVien.entity.HocPhi;
-import com.nhom2.qlsv.dao.SinhVienDAOImpl;
-import com.nhom2.qlsv.model.SinhVien;
-import com.nhom2.qlsv.view.MainJFrame;
+import com.ht22.QLDiemSinhVien.DAO.SinhVienDAOImpl;
+import com.ht22.QLDiemSinhVien.entity.SinhVien;
+import com.ht22.QLDiemSinhVien.views.frames.view.MainJFrame;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

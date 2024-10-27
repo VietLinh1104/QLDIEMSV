@@ -4,7 +4,7 @@
  */
 package com.nhom3.qlsv.main;
 
-import com.nhom2.qlsv.view.MainJFrame;
+import com.ht22.QLDiemSinhVien.views.frames.view.MainJFrame;
 
 
 
