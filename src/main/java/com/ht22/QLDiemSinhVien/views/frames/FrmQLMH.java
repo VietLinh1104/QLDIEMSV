@@ -9,6 +9,7 @@ import com.ht22.QLDiemSinhVien.DAO.DAOSubject;
 import com.ht22.QLDiemSinhVien.entity.Khoa;
 import com.ht22.QLDiemSinhVien.entity.Subject;
 
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
@@ -218,7 +219,12 @@ public class FrmQLMH extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 0, 0));
         jLabel13.setText("(*) :");
 
-        jMenu1.setText("File");
+        jMenu1.setText("Home");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuHomeActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -360,6 +366,15 @@ public class FrmQLMH extends javax.swing.JFrame {
     private void lstCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstCategoryMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lstCategoryMouseClicked
+
+    private void jMenuHomeActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jMenuHomeActionPerformed
+        // TODO add your handling code here:
+        // Ẩn frame hiện tại
+        setVisible(false);
+
+        // Hiển thị frame mới
+        new Main().setVisible(true);
+    }//GEN-LAST:event_jMenuHomeActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:

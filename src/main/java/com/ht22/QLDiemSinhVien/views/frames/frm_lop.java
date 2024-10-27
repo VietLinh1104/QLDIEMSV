@@ -11,6 +11,7 @@ import com.ht22.QLDiemSinhVien.entity.Lop;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -370,6 +371,11 @@ public class frm_lop extends javax.swing.JFrame {
         );
 
         jMenuHome.setText("Home");
+        jMenuHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuHomeActionPerformed(evt);
+            }
+        });
         jMenuBar.add(jMenuHome);
 
         jMenuBack.setText("Back");
@@ -402,7 +408,7 @@ public class frm_lop extends javax.swing.JFrame {
     private void jButtonQuanLyKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxKhoaActionPerformed
         // TODO add your handling code here:
         // Ẩn frame hiện tại
-//        setVisible(false);
+        setVisible(false);
 
         // Hiển thị frame mới
         new frm_khoa().setVisible(true);
@@ -417,6 +423,15 @@ public class frm_lop extends javax.swing.JFrame {
         lopDAO.delete(tableValueSelected);
         initTable();
     }//GEN-LAST:event_jButtonXoaLopActionPerformed
+
+    private void jMenuHomeActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jMenuHomeActionPerformed
+        // TODO add your handling code here:
+        // Ẩn frame hiện tại
+        setVisible(false);
+
+        // Hiển thị frame mới
+        new Main().setVisible(true);
+    }//GEN-LAST:event_jMenuHomeActionPerformed
 
     private void jButtonThemLopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemLopActionPerformed
         // TODO add your handling code here:

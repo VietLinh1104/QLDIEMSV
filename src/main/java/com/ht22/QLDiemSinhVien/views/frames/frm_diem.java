@@ -11,6 +11,8 @@ import com.ht22.QLDiemSinhVien.entity.Subject;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -481,6 +483,11 @@ public class frm_diem extends javax.swing.JFrame {
         );
 
         jMenuHome.setText("Home");
+        jMenuHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuHomeActionPerformed(evt);
+            }
+        });
         jMenuBar.add(jMenuHome);
 
         jMenuBack.setText("Back");
@@ -527,6 +534,15 @@ public class frm_diem extends javax.swing.JFrame {
         System.out.println(tableValueSelected);
         initTable();
     }//GEN-LAST:event_jButtonXoaDiemActionPerformed
+
+    private void jMenuHomeActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jMenuHomeActionPerformed
+        // TODO add your handling code here:
+        // Ẩn frame hiện tại
+        setVisible(false);
+
+        // Hiển thị frame mới
+        new Main().setVisible(true);
+    }//GEN-LAST:event_jMenuHomeActionPerformed
 
     private void jButtonThemDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemDiemActionPerformed
         // TODO add your handling code here:

@@ -4,6 +4,7 @@
  */
 package com.nhom3.qlsv.controller;
 
+import com.ht22.QLDiemSinhVien.views.frames.Main;
 import com.nhom2.qlsv.bean.DanhMucBean;
 import com.nhom2.qlsv.view.KhoaHocJPanel;
 import com.nhom2.qlsv.view.SinhVienJPanel;
@@ -53,7 +54,7 @@ public class ChuyenManHinhController {
     
     class LabelEvent implements MouseListener{
         
-        private JPanel node;
+        private SinhVienJPanel node;
         
         private String kind;
         private JPanel jpnItem;
@@ -72,17 +73,17 @@ public class ChuyenManHinhController {
         public void mouseClicked(MouseEvent e) {
             switch(kind){
                 case"TrangChu":
-                    node = new TrangChuJPanel();
+//                    node = new;
                     break;
                 case"SinhVien":
                     node = new SinhVienJPanel();
                     break;
                 case"KhoaHoc":
-                    node = new KhoaHocJPanel();
+//                    node = new KhoaHocJPanel();
                     break;
 
                 default:
-                    node = new TrangChuJPanel();
+//                    node = new TrangChuJPanel();
                     break;
             }
             root.removeAll();

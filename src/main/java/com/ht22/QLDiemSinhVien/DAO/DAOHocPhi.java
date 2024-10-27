@@ -1,104 +1,140 @@
 package com.ht22.QLDiemSinhVien.DAO;
 
 import com.ht22.QLDiemSinhVien.database.ConnectDB;
-import com.ht22.QLDiemSinhVien.entity.Diem;
+import com.ht22.QLDiemSinhVien.entity.HocPhi;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DAOHocPhi implements DaoInterface<Diem>{
-    @Override
-    public List<Diem> getAll() {
-        List<Diem> diems = new ArrayList<>();
-        String query = "SELECT * FROM tbl_diem ;";
-        try(Connection conn = ConnectDB.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery() ){
-            while(rs.next()){
-                Diem diem = new Diem(rs.getInt("maDiem"), rs.getString("maSV"), rs.getString("maHocPhan"), rs.getInt("solanthi"),rs.getFloat("diemgiuaki"),rs.getFloat("diemcuoiki"),rs.getString("diemchu"));
-                diems.add(diem);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return diems;
+public class DAOHocPhi implements DaoInterface<HocPhi> {
+    private final Connection connection;
+
+    public DAOHocPhi() {
+        // Khởi tạo connection từ lớp ConnectDB
+        this.connection = ConnectDB.getConnection();
     }
 
     @Override
-    public List<Diem> getAllByKhoaID(String id) {
-        return List.of();
-    }
-
-    public List<Diem> getAllByMaSinhVienAndHocPhan( String maHocPhan) {
-        List<Diem> diems = new ArrayList<>();
-        String query = "SELECT * FROM tbl_diem WHERE maHocPhan = ?;";
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setString(1, maHocPhan);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Diem diem = new Diem(rs.getInt("maDiem"), rs.getString("maSV"),
-                            rs.getString("maHocPhan"), rs.getInt("solanthi"),
-                            rs.getFloat("diemgiuaki"), rs.getFloat("diemcuoiki"),
-                            rs.getString("diemchu"));
-                    diems.add(diem);
-                }
+    public List<HocPhi> getAll() {
+        List<HocPhi> hocPhiList = new ArrayList<>();
+        String query = "SELECT * FROM hocphi";
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                HocPhi hocPhi = mapResultSetToHocPhi(rs);
+                hocPhiList.add(hocPhi);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return diems;
+        return hocPhiList;
     }
 
+    @Override
+    public List<HocPhi> getAllByKhoaID(String maSV) {
+        List<HocPhi> hocPhiList = new ArrayList<>();
+        String query = "SELECT * FROM hocphi WHERE maSV = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, maSV);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                HocPhi hocPhi = mapResultSetToHocPhi(rs);
+                hocPhiList.add(hocPhi);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hocPhiList;
+    }
 
     @Override
-    public Optional<Diem> get(int id) {
+    public Optional<HocPhi> get(int id) {
+        String query = "SELECT * FROM hocphi WHERE MaHocPhi = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return Optional.of(mapResultSetToHocPhi(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return Optional.empty();
     }
 
-    @Override
-    public int insert(Diem diem) throws SQLException {
-        String query = "INSERT INTO tbl_diem (maSV, maHocPhan, solanthi, diemgiuaki, diemcuoiki, diemchu) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setString(1, diem.getMaSV());
-            stmt.setString(2, diem.getMaHocPhan());
-            stmt.setInt(3, diem.getSolanthi());
-            stmt.setFloat(4, diem.getDiemgiuaki());
-            stmt.setFloat(5, diem.getDiemcuoiki());
-            stmt.setString(6, diem.getDiemchu());
-
-            return stmt.executeUpdate();
+    public List<HocPhi> getByID(String id) {
+        List<HocPhi> hocPhiList = new ArrayList<>();
+        String query = "SELECT * FROM hocphi WHERE maSV = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                HocPhi hocPhi = mapResultSetToHocPhi(rs);
+                hocPhiList.add(hocPhi);
+            }
         } catch (SQLException e) {
-            // Ném ngoại lệ để nơi gọi có thể xử lý lỗi
-            throw e;
-        }
-    }
-
-    @Override
-    public Boolean update(Diem diem) {
-        return null;
-    }
-
-    @Override
-    public Boolean delete(String maDiem) {
-        String query = "DELETE FROM tbl_diem WHERE maDiem = ?";
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, maDiem); // Giả sử lop có phương thức getMaLop()
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            // Thay vì chỉ in stack trace, ném ngoại lệ ra ngoài để nơi gọi có thể bắt
             e.printStackTrace();
         }
-        return true;
+        return hocPhiList;
+    }
+
+    @Override
+    public int insert(HocPhi hocPhi) throws SQLException {
+        String query = "INSERT INTO hocphi (maSV, TenKhoanPhi, SoTien, NgayDong, TrangThai) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, hocPhi.getMaSV());
+            pstmt.setString(2, hocPhi.getTenKhoanPhi());
+            pstmt.setDouble(3, hocPhi.getSoTien());
+            pstmt.setDate(4, hocPhi.getNgayDong());
+            pstmt.setString(5, hocPhi.getTrangThai());
+            pstmt.executeUpdate();
+
+            ResultSet generatedKeys = pstmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public Boolean update(HocPhi hocPhi) {
+        String query = "UPDATE hocphi SET maSV = ?, TenKhoanPhi = ?, SoTien = ?, NgayDong = ?, TrangThai = ? WHERE MaHocPhi = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, hocPhi.getMaSV());
+            pstmt.setString(2, hocPhi.getTenKhoanPhi());
+            pstmt.setDouble(3, hocPhi.getSoTien());
+            pstmt.setDate(4, hocPhi.getNgayDong());
+            pstmt.setString(5, hocPhi.getTrangThai());
+            pstmt.setInt(6, hocPhi.getMaHocPhi());
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean delete(String maLop) {
+        String query = "DELETE FROM hocphi WHERE maSV = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, maLop);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private HocPhi mapResultSetToHocPhi(ResultSet rs) throws SQLException {
+        HocPhi hocPhi = new HocPhi();
+        hocPhi.setMaHocPhi(rs.getInt("MaHocPhi"));
+        hocPhi.setMaSV(rs.getString("maSV"));
+        hocPhi.setTenKhoanPhi(rs.getString("TenKhoanPhi"));
+        hocPhi.setSoTien(rs.getDouble("SoTien"));
+        hocPhi.setNgayDong(rs.getDate("NgayDong"));
+        hocPhi.setTrangThai(rs.getString("TrangThai"));
+        return hocPhi;
     }
 }

@@ -94,7 +94,8 @@ public class SinhVienController {
                     return;
                 }
                     
-                    
+                    sinhVien.setMaSV(jtfMaSinhVien.getText());
+                    sinhVien.setMaLop("HT22");
                     sinhVien.setHoTen(jtfHoTen.getText());
                     sinhVien.setNgaySinh(jdcNgaySinh.getDate());
                     sinhVien.setGioiTinh(jrdNam.isSelected());
@@ -103,11 +104,7 @@ public class SinhVienController {
                     sinhVien.setTinhTrang(jcbTinhTrang.isSelected());
 
                     String lastId = sinhVienService.createOrUpdate(sinhVien);
-                    if (Integer.parseInt(lastId) > 0) {
-                        sinhVien.setMaSV(lastId);
-                        jtfMaSinhVien.setText("#" + lastId);
-                        jlbMsg.setText("Cập nhật dữ liệu thành công!");
-                    }
+
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();  // In lỗi ra console để kiểm tra

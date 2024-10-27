@@ -6,10 +6,10 @@ package com.ht22.QLDiemSinhVien.views.frames;
 
 import com.ht22.QLDiemSinhVien.DAO.DAOKhoa;
 import com.ht22.QLDiemSinhVien.entity.Khoa;
-import com.ht22.QLDiemSinhVien.entity.Lop;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
@@ -63,7 +63,7 @@ public class frm_khoa extends javax.swing.JFrame {
 
                 if (selectedRow >= 0) { // Kiểm tra xem có hàng nào được chọn không
 
-                    String maKhoa = jTableKhoa.getValueAt(selectedRow, 0).toString();
+                    String maKhoa = jTableKhoa.getValueAt(selectedRow, 1).toString();
                     tableValueSelected = maKhoa;
                 }
             }
@@ -225,6 +225,12 @@ public class frm_khoa extends javax.swing.JFrame {
         );
 
         jMenu1.setText("Home");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuHomeActionPerformed(evt);
+            }
+        });
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Back");
@@ -256,9 +262,19 @@ public class frm_khoa extends javax.swing.JFrame {
 
     private void jButtonXoaKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaKhoaActionPerformed
         // TODO add your handling code here:
+        System.out.println(tableValueSelected);
         khoaDAO.delete(tableValueSelected);
         initTable();
     }//GEN-LAST:event_jButtonXoaKhoaActionPerformed
+
+    private void jMenuHomeActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jMenuHomeActionPerformed
+        // TODO add your handling code here:
+        // Ẩn frame hiện tại
+        setVisible(false);
+
+        // Hiển thị frame mới
+        new Main().setVisible(true);
+    }//GEN-LAST:event_jMenuHomeActionPerformed
 
     private void jButtonThemKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemKhoaActionPerformed
         // TODO add your handling code here:

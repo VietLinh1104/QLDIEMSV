@@ -8,6 +8,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Home"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuHomeActionPerformed"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuBack">
           <Properties>
@@ -58,9 +61,9 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabelMonHoc" max="32767" attributes="0"/>
+                      <Component id="jLabelSinhVien" max="32767" attributes="0"/>
                       <Component id="jScrollPane1" max="32767" attributes="0"/>
-                      <Component id="jButtonMonHoc" alignment="0" pref="232" max="32767" attributes="0"/>
+                      <Component id="jButtonSinhVien" alignment="0" pref="232" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanelLop" min="-2" max="-2" attributes="0"/>
@@ -71,11 +74,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabelMonHoc" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabelSinhVien" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonMonHoc" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonSinhVien" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Component id="jPanelLop" alignment="0" max="32767" attributes="0"/>
@@ -83,9 +86,9 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabelMonHoc">
+        <Component class="javax.swing.JLabel" name="jLabelSinhVien">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Mon Hoc"/>
+            <Property name="text" type="java.lang.String" value="Sinh Vien"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -95,7 +98,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JList" name="jListMonHoc">
+            <Component class="javax.swing.JList" name="jListSinhVien">
               <Properties>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                   <StringArray count="5">
@@ -113,12 +116,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="jButtonMonHoc">
+        <Component class="javax.swing.JButton" name="jButtonSinhVien">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; M&#xf4;n H&#x1ecd;c"/>
+            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Sinh Vi&#xea;n"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMonHocActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSinhVienActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanelLop">
@@ -130,9 +133,9 @@
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelDiem" max="32767" attributes="0"/>
+                              <Component id="jLabelHocPhi" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane2" alignment="0" pref="711" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="714" max="32767" attributes="0"/>
                           <Component id="jPanelLopAction" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="23" max="32767" attributes="0"/>
@@ -143,7 +146,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabelDiem" min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="jLabelHocPhi" min="-2" pref="16" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="315" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -154,9 +157,9 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabelDiem">
+            <Component class="javax.swing.JLabel" name="jLabelHocPhi">
               <Properties>
-                <Property name="text" type="java.lang.String" value="B&#x1ea3;ng &#x110;i&#x1ec3;m"/>
+                <Property name="text" type="java.lang.String" value="H&#x1ecd;c Ph&#xed;"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -166,7 +169,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTableDiem">
+                <Component class="javax.swing.JTable" name="jTableHocPhi">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
@@ -214,18 +217,17 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jPanelInputTenLop" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButtonXoaDiem" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonXoa" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButtonThemDiem" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonThem" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jPanelInputTenLop1" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jPanelInputTenLop" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jPanelInputMaLop" max="32767" attributes="0"/>
                                       <Component id="jPanelInputTenLop2" max="32767" attributes="0"/>
@@ -236,6 +238,7 @@
                                       <Component id="jPanelInputMaLop2" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <Component id="jButtonSua" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -251,14 +254,14 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanelInputTenLop1" min="-2" max="-2" attributes="0"/>
                               <Component id="jPanelInputTenLop2" min="-2" max="-2" attributes="0"/>
                               <Component id="jPanelInputMaLop2" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="18" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jButtonXoaDiem" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonThemDiem" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonXoa" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonThem" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonSua" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -274,7 +277,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane3" max="32767" attributes="0"/>
-                                  <Component id="jLabelInputTenLop" pref="228" max="32767" attributes="0"/>
+                                  <Component id="jLabelInputTenKhoanPhi" pref="228" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -284,7 +287,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelInputTenLop" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelInputTenKhoanPhi" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -293,9 +296,9 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabelInputTenLop">
+                    <Component class="javax.swing.JLabel" name="jLabelInputTenKhoanPhi">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="&#x110;i&#x1ec3;m gi&#x1eef;a k&#x1ef3;"/>
+                        <Property name="text" type="java.lang.String" value="T&#xea;n Kho&#x1ea3;n ph&#xed;"/>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane3">
@@ -305,7 +308,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTextPane" name="jTextPaneInputDiemGiuaKy">
+                        <Component class="javax.swing.JTextPane" name="jTextPaneInputTenKhoanPhi">
                         </Component>
                       </SubComponents>
                     </Container>
@@ -320,7 +323,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane4" alignment="0" pref="228" max="32767" attributes="0"/>
-                                  <Component id="jLabelInputMaLop" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabelInputNgayDong" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -330,7 +333,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jLabelInputMaLop" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelInputNgayDong" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -338,9 +341,9 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabelInputMaLop">
+                    <Component class="javax.swing.JLabel" name="jLabelInputNgayDong">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1ea7;n thi"/>
+                        <Property name="text" type="java.lang.String" value="Ng&#xe0;y &#x111;&#xf3;ng"/>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane4">
@@ -350,7 +353,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTextPane" name="jTextPaneInputLanThi">
+                        <Component class="javax.swing.JTextPane" name="jTextPaneInputNgayDong">
                         </Component>
                       </SubComponents>
                     </Container>
@@ -364,9 +367,9 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabelInputKhoa" max="32767" attributes="0"/>
+                                  <Component id="jLabelInputTrangThai" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="jComboBoxDiem" min="-2" pref="189" max="-2" attributes="0"/>
+                                      <Component id="jComboBoxTrangThai" min="-2" pref="189" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -378,21 +381,21 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelInputKhoa" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelInputTrangThai" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBoxDiem" min="-2" max="-2" attributes="0"/>
+                              <Component id="jComboBoxTrangThai" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="18" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabelInputKhoa">
+                    <Component class="javax.swing.JLabel" name="jLabelInputTrangThai">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="M&#xe3; h&#x1ecd;c ph&#x1ea7;n"/>
+                        <Property name="text" type="java.lang.String" value="Tr&#x1ea1;ng th&#xe1;i"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JComboBox" name="jComboBoxDiem">
+                    <Component class="javax.swing.JComboBox" name="jComboBoxTrangThai">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="4">
@@ -404,7 +407,7 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxDiemActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxTrangThaiActionPerformed"/>
                       </Events>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -412,68 +415,22 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="jButtonThemDiem">
+                <Component class="javax.swing.JButton" name="jButtonThem">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Th&#xea;m &#x110;i&#x1ec3;m"/>
+                    <Property name="text" type="java.lang.String" value="Th&#xea;m Kho&#x1ea3;n Ph&#xed;"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonThemDiemActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonThemActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButtonXoaDiem">
+                <Component class="javax.swing.JButton" name="jButtonXoa">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="X&#xf3;a &#x110;i&#x1ec3;m"/>
+                    <Property name="text" type="java.lang.String" value="X&#xf3;a Kho&#x1ea3;n ph&#xed;"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonXoaDiemActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonXoaActionPerformed"/>
                   </Events>
                 </Component>
-                <Container class="javax.swing.JPanel" name="jPanelInputTenLop1">
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane5" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabelInputTenLop1" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelInputTenLop1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabelInputTenLop1">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="&#x110;i&#x1ec3;m cu&#x1ed1;i k&#x1ef3;"/>
-                      </Properties>
-                    </Component>
-                    <Container class="javax.swing.JScrollPane" name="jScrollPane5">
-                      <AuxValues>
-                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                      </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JTextPane" name="jTextPaneInputCuoiKy">
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                  </SubComponents>
-                </Container>
                 <Container class="javax.swing.JPanel" name="jPanelInputTenLop2">
 
                   <Layout>
@@ -483,7 +440,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane6" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabelInputTenLop2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabelInputSoTien" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -493,7 +450,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelInputTenLop2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelInputSoTien" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jScrollPane6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -502,9 +459,9 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabelInputTenLop2">
+                    <Component class="javax.swing.JLabel" name="jLabelInputSoTien">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="&#x110;i&#x1ec3;m ch&#x1eef;"/>
+                        <Property name="text" type="java.lang.String" value="S&#x1ed1; ti&#x1ec1;n"/>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane6">
@@ -514,7 +471,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JTextPane" name="jTextPaneInputDiemChu">
+                        <Component class="javax.swing.JTextPane" name="jTextPaneInputSoTien">
                         </Component>
                       </SubComponents>
                     </Container>
@@ -528,7 +485,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabelInputKhoa1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabelInputMaSinhVien" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jComboBoxMaSV" min="-2" pref="189" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -542,7 +499,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabelInputKhoa1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelInputMaSinhVien" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jComboBoxMaSV" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -551,7 +508,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jLabelInputKhoa1">
+                    <Component class="javax.swing.JLabel" name="jLabelInputMaSinhVien">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="M&#xe3; Sinh Vi&#xea;n"/>
                       </Properties>
@@ -576,6 +533,14 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JButton" name="jButtonSua">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="S&#x1eed;a Kho&#x1ea3;n Ph&#xed;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSuaActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
