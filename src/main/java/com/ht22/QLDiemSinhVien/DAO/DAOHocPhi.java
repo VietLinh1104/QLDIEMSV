@@ -105,7 +105,7 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
 
     @Override
     public Boolean delete(String maLop) throws SQLException {
-        String query = "DELETE FROM hocphi WHERE maSV = ?";
+        String query = "DELETE FROM hocphi WHERE MaHocPhi = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, maLop);
             return pstmt.executeUpdate() > 0;

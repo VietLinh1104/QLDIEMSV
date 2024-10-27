@@ -345,6 +345,7 @@ public class FrmQLMH extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+//    chuyển sang khoa
     private void btnNewCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewCategoryActionPerformed
         // TODO add your handling code here:
         this.dispose();   // ẩn form cũ và hiện form mới
@@ -367,6 +368,7 @@ public class FrmQLMH extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lstCategoryMouseClicked
 
+//    nút về home
     private void jMenuHomeActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jMenuHomeActionPerformed
         // TODO add your handling code here:
         // Ẩn frame hiện tại
@@ -376,6 +378,7 @@ public class FrmQLMH extends javax.swing.JFrame {
         new Main().setVisible(true);
     }//GEN-LAST:event_jMenuHomeActionPerformed
 
+//    nút save
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         String maKhoa =((Khoa)cbCategory.getSelectedItem()).getMaKhoa();
@@ -404,6 +407,7 @@ public class FrmQLMH extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+//    nút update
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         System.out.println(subjectIdSelected[0]);
@@ -432,6 +436,7 @@ public class FrmQLMH extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+//    nút xóa
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         // TODO add your handling code here:
         if (JOptionPane.showConfirmDialog(rootPane, "Bạn thật sự muốn xóa???", "Cảnh báo xóa!!!", JOptionPane.YES_OPTION) != 0) {
@@ -539,6 +544,7 @@ public class FrmQLMH extends javax.swing.JFrame {
     private javax.swing.JTextField txtTenHocPhan;
     // End of variables declaration//GEN-END:variables
 
+//    jList load data
     private void loadDatatoJList() {
         listModelCategory = new DefaultListModel<>();
         List<Khoa> listCategory = categoryDao.getAll();
@@ -578,7 +584,7 @@ public class FrmQLMH extends javax.swing.JFrame {
     }
 
 
-
+// ComboBox loadData
     private void loadDatatoCombox() {
         List<Khoa> khoas = categoryDao.getAll();
 
@@ -594,6 +600,7 @@ public class FrmQLMH extends javax.swing.JFrame {
         cbCategory.setModel(model);
     }
 
+//    Table Load data
     private void loadDatatoJTable() {
         DefaultTableModel tblModelSubject = new DefaultTableModel();
         Object[] columnTilte = {"Mã Học Phần","Mã Khoa","Tên Học Phần", "Số Tín Chỉ", "Ghi Chú"};

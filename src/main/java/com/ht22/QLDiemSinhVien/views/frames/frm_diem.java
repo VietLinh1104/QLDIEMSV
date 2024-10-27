@@ -37,118 +37,6 @@ public class frm_diem extends javax.swing.JFrame {
         initComboBox();
     }
 
-//    setModel Table
-    public void setModelTable(List<Diem> diemList ){
-        DefaultTableModel tableModel = new DefaultTableModel(
-                new String[]{"Mã Điểm","Sinh Viên", "Học Phần", "Lần Thi", "GK", "CK", "Điểm chữ"}, 0
-        );
-
-
-        for (Diem diem : diemList) {
-            // Thêm một hàng với các giá trị lấy từ đối tượng Lop
-            tableModel.addRow(new Object[]{
-                    diem.getMaDiem(),
-                    diem.getMaSV(),
-                    diem.getMaHocPhan(),
-                    diem.getSolanthi(),
-                    diem.getDiemgiuaki(),
-                    diem.getDiemcuoiki(),
-                    diem.getDiemchu()
-            });
-        }
-
-        jTableDiem.setModel(tableModel);
-        jScrollPane2.setViewportView(jTableDiem);
-    }
-
-//    setTable
-    public void initTable(){
-//
-        List<Diem> diems = diemDAO.getAll();
-//        Set model data for Table
-        setModelTable( diems );
-
-//        handle click data on table
-        jTableDiem.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int selectedRow = jTableDiem.getSelectedRow(); // Lấy chỉ số hàng được chọn
-
-                if (selectedRow >= 0) { // Kiểm tra xem có hàng nào được chọn không
-
-                    String maDiem = jTableDiem.getValueAt(selectedRow, 0).toString();
-                    tableValueSelected = maDiem;
-                }
-            }
-        });
-    }
-
-//  set List
-    private void initList(){
-        //        List Khoa
-        List<Subject> subjects = DAOSubject.getAll();
-
-        // Set List data for models
-        DefaultListModel<Subject> models = new DefaultListModel<>();
-
-//      add data from khoas list for models
-        for (Subject subject : subjects){
-            models.addElement(subject);
-        }
-
-//        Set models to List
-        jListMonHoc.setModel(models);
-        jScrollPane1.setViewportView(jListMonHoc);
-
-//        handle click row list
-        jListMonHoc.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int selectedRow = jListMonHoc.getSelectedIndex();
-
-                if (selectedRow >= 0) {
-
-                    String maHocPhan = jListMonHoc.getSelectedValue().getMaHocPhan();
-                    List<Diem> subjectList = diemDAO.getAllByMaSinhVienAndHocPhan( maHocPhan);
-
-//                    show data table by id of listSelected
-                    setModelTable( subjectList );
-
-                }
-            }
-        });
-
-    }
-
-    // Phương thức generic để tạo model cho ComboBox từ bất kỳ danh sách nào
-    public <T> DefaultComboBoxModel<T> createModelComboBoxDiem(List<T> items) {
-        // Khởi tạo model
-        DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
-
-        // Duyệt qua danh sách và thêm vào model
-        for (T item : items) {
-            model.addElement(item); // Thêm phần tử vào ComboBoxModel
-        }
-
-        return model;
-    }
-
-    // Phương thức khởi tạo ComboBox với dữ liệu
-    public void initComboBox() {
-        List<Subject> subjects = DAOSubject.getAll();
-        List<SinhVien> sinhvien = sinhVienDAO.getList();
-
-        // Sử dụng phương thức generic cho cả hai loại đối tượng
-        DefaultComboBoxModel<Subject> modelSJ = createModelComboBoxDiem(subjects);
-        DefaultComboBoxModel<SinhVien> modelSV = createModelComboBoxDiem(sinhvien);
-
-        // Gán model cho các JComboBox
-        jComboBoxDiem.setModel(modelSJ);
-        jComboBoxMaSV.setModel(modelSV);
-    }
-
-
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -511,7 +399,121 @@ public class frm_diem extends javax.swing.JFrame {
      * Handle Clicked
      */
 
+    //    setModel Table
+    public void setModelTable(List<Diem> diemList ){
+        DefaultTableModel tableModel = new DefaultTableModel(
+                new String[]{"Mã Điểm","Sinh Viên", "Học Phần", "Lần Thi", "GK", "CK", "Điểm chữ"}, 0
+        );
 
+
+        for (Diem diem : diemList) {
+            // Thêm một hàng với các giá trị lấy từ đối tượng Lop
+            tableModel.addRow(new Object[]{
+                    diem.getMaDiem(),
+                    diem.getMaSV(),
+                    diem.getMaHocPhan(),
+                    diem.getSolanthi(),
+                    diem.getDiemgiuaki(),
+                    diem.getDiemcuoiki(),
+                    diem.getDiemchu()
+            });
+        }
+
+        jTableDiem.setModel(tableModel);
+        jScrollPane2.setViewportView(jTableDiem);
+    }
+
+    //    setTable
+    public void initTable(){
+//
+        List<Diem> diems = diemDAO.getAll();
+//        Set model data for Table
+        setModelTable( diems );
+
+//        handle click data on table
+        jTableDiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = jTableDiem.getSelectedRow(); // Lấy chỉ số hàng được chọn
+
+                if (selectedRow >= 0) { // Kiểm tra xem có hàng nào được chọn không
+
+                    String maDiem = jTableDiem.getValueAt(selectedRow, 0).toString();
+                    tableValueSelected = maDiem;
+                }
+            }
+        });
+    }
+
+    //  set List
+    private void initList(){
+        //        List Khoa
+        List<Subject> subjects = DAOSubject.getAll();
+
+        // Set List data for models
+        DefaultListModel<Subject> models = new DefaultListModel<>();
+
+//      add data from khoas list for models
+        for (Subject subject : subjects){
+            models.addElement(subject);
+        }
+
+//        Set models to List
+        jListMonHoc.setModel(models);
+        jScrollPane1.setViewportView(jListMonHoc);
+
+//        handle click row list
+        jListMonHoc.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = jListMonHoc.getSelectedIndex();
+
+                if (selectedRow >= 0) {
+
+                    String maHocPhan = jListMonHoc.getSelectedValue().getMaHocPhan();
+                    List<Diem> subjectList = diemDAO.getAllByMaSinhVienAndHocPhan( maHocPhan);
+
+//                    show data table by id of listSelected
+                    setModelTable( subjectList );
+
+                }
+            }
+        });
+
+    }
+
+    // Phương thức generic để tạo model cho ComboBox từ bất kỳ danh sách nào
+    public <T> DefaultComboBoxModel<T> createModelComboBoxDiem(List<T> items) {
+        // Khởi tạo model
+        DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
+
+        // Duyệt qua danh sách và thêm vào model
+        for (T item : items) {
+            model.addElement(item); // Thêm phần tử vào ComboBoxModel
+        }
+
+        return model;
+    }
+
+    // Phương thức khởi tạo ComboBox với dữ liệu
+    public void initComboBox() {
+        List<Subject> subjects = DAOSubject.getAll();
+        List<SinhVien> sinhvien = sinhVienDAO.getList();
+
+        // Sử dụng phương thức generic cho cả hai loại đối tượng
+        DefaultComboBoxModel<Subject> modelSJ = createModelComboBoxDiem(subjects);
+        DefaultComboBoxModel<SinhVien> modelSV = createModelComboBoxDiem(sinhvien);
+
+        // Gán model cho các JComboBox
+        jComboBoxDiem.setModel(modelSJ);
+        jComboBoxMaSV.setModel(modelSV);
+    }
+
+
+
+
+
+//Chuyển trang quản lý
     private void jButtonQuanLyKhoaActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
         // Ẩn frame hiện tại
@@ -525,13 +527,14 @@ public class frm_diem extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxDiemActionPerformed
 
+//    btn Xóa
     private void jButtonXoaDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaDiemActionPerformed
         // TODO add your handling code here:
         diemDAO.delete(tableValueSelected);
-        System.out.println(tableValueSelected);
         initTable();
     }//GEN-LAST:event_jButtonXoaDiemActionPerformed
 
+//    về home
     private void jMenuHomeActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jMenuHomeActionPerformed
         // TODO add your handling code here:
         // Ẩn frame hiện tại
@@ -541,6 +544,7 @@ public class frm_diem extends javax.swing.JFrame {
         new Main().setVisible(true);
     }//GEN-LAST:event_jMenuHomeActionPerformed
 
+//    thêm điểm
     private void jButtonThemDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemDiemActionPerformed
         // TODO add your handling code here:
 

@@ -36,102 +36,6 @@ public class frm_lop extends javax.swing.JFrame {
         initComboBox();
     }
 
-//    setModel Table
-    public void setModelTable(List<Lop> lopList ){
-        DefaultTableModel tableModel = new DefaultTableModel(
-                new String[]{"Tên Lớp", "Mã Lớp", "Mã Khoa", "Số Sinh Viên"}, 0
-        );
-
-
-        for (Lop lop : lopList) {
-            // Thêm một hàng với các giá trị lấy từ đối tượng Lop
-            tableModel.addRow(new Object[]{
-                    lop.getTenLop(),
-                    lop.getMaLop(),
-                    lop.getMaKhoa(),
-                    lop.getSoSV()
-            });
-        }
-
-        jTableLop.setModel(tableModel);
-        jScrollPaneLop.setViewportView(jTableLop);
-    }
-
-//    setTable
-    public void initTable(){
-//
-        List<Lop> lopList = lopDAO.getAll();
-//        Set model data for Table
-        setModelTable( lopList );
-
-//        handle click data on table
-        jTableLop.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int selectedRow = jTableLop.getSelectedRow(); // Lấy chỉ số hàng được chọn
-
-                if (selectedRow >= 0) { // Kiểm tra xem có hàng nào được chọn không
-
-                    String maLop = jTableLop.getValueAt(selectedRow, 1).toString();
-                    tableValueSelected = maLop;
-                }
-            }
-        });
-    }
-
-//  set List
-    private void initList(){
-        //        List Khoa
-        List<Khoa> khoas = khoaDAO.getAll();
-
-        // Set List data for models
-        DefaultListModel<Khoa> models = new DefaultListModel<>();
-
-//      add data from khoas list for models
-        for (Khoa khoa : khoas){
-            models.addElement(khoa);
-        }
-
-//        Set models to List
-        jListKhoa.setModel(models);
-        jScrollPaneKhoa.setViewportView(jListKhoa);
-
-//        handle click row list
-        jListKhoa.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int selectedRow = jListKhoa.getSelectedIndex();
-
-                if (selectedRow >= 0) {
-
-                    String maKhoa = jListKhoa.getSelectedValue().getMaKhoa();
-                    List<Lop> lopList = lopDAO.getAllByKhoaID(maKhoa);
-
-//                    show data table by id of listSelected
-                    setModelTable( lopList );
-
-                }
-            }
-        });
-
-    }
-
-//    set models data for combobox
-    public void initComboBox(){
-        List<Khoa> khoas = khoaDAO.getAll();
-
-//        set models
-        DefaultComboBoxModel<Khoa> model = new DefaultComboBoxModel<>();
-
-        // set data from khoa to model
-        for (Khoa khoa : khoas){
-            model.addElement(khoa);  // Thêm đối tượng Khoa
-        }
-
-        // get in to Combobox
-        jComboBoxKhoa.setModel(model);
-    }
-
 
 
 
@@ -403,8 +307,105 @@ public class frm_lop extends javax.swing.JFrame {
     /**
      * Handle Clicked
      */
+    //    setModel Table
+    public void setModelTable(List<Lop> lopList ){
+        DefaultTableModel tableModel = new DefaultTableModel(
+                new String[]{"Tên Lớp", "Mã Lớp", "Mã Khoa", "Số Sinh Viên"}, 0
+        );
 
 
+        for (Lop lop : lopList) {
+            // Thêm một hàng với các giá trị lấy từ đối tượng Lop
+            tableModel.addRow(new Object[]{
+                    lop.getTenLop(),
+                    lop.getMaLop(),
+                    lop.getMaKhoa(),
+                    lop.getSoSV()
+            });
+        }
+
+        jTableLop.setModel(tableModel);
+        jScrollPaneLop.setViewportView(jTableLop);
+    }
+
+    //    init table
+    public void initTable(){
+//
+        List<Lop> lopList = lopDAO.getAll();
+//        Set model data for Table
+        setModelTable( lopList );
+
+//        handle click data on table
+        jTableLop.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = jTableLop.getSelectedRow(); // Lấy chỉ số hàng được chọn
+
+                if (selectedRow >= 0) { // Kiểm tra xem có hàng nào được chọn không
+
+                    String maLop = jTableLop.getValueAt(selectedRow, 1).toString();
+                    tableValueSelected = maLop;
+                }
+            }
+        });
+    }
+
+    //  init List
+    private void initList(){
+        //        List Khoa
+        List<Khoa> khoas = khoaDAO.getAll();
+
+        // Set List data for models
+        DefaultListModel<Khoa> models = new DefaultListModel<>();
+
+//      add data from khoas list for models
+        for (Khoa khoa : khoas){
+            models.addElement(khoa);
+        }
+
+//        Set models to List
+        jListKhoa.setModel(models);
+        jScrollPaneKhoa.setViewportView(jListKhoa);
+
+//      click jList
+        jListKhoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = jListKhoa.getSelectedIndex();
+
+                if (selectedRow >= 0) {
+
+                    String maKhoa = jListKhoa.getSelectedValue().getMaKhoa();
+                    List<Lop> lopList = lopDAO.getAllByKhoaID(maKhoa);
+
+//                    show data table by id of listSelected
+                    setModelTable( lopList );
+
+                }
+            }
+        });
+
+    }
+
+    //    init Combobox
+    public void initComboBox(){
+        List<Khoa> khoas = khoaDAO.getAll();
+
+//        set models
+        DefaultComboBoxModel<Khoa> model = new DefaultComboBoxModel<>();
+
+        // set data from khoa to model
+        for (Khoa khoa : khoas){
+            model.addElement(khoa);  // Thêm đối tượng Khoa
+        }
+
+        // get in to Combobox
+        jComboBoxKhoa.setModel(model);
+    }
+
+
+
+//  chuyen sang Khoa
     private void jButtonQuanLyKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxKhoaActionPerformed
         // TODO add your handling code here:
         // Ẩn frame hiện tại
@@ -418,12 +419,14 @@ public class frm_lop extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxKhoaActionPerformed
 
+//    Nút Xóa
     private void jButtonXoaLopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaLopActionPerformed
         // TODO add your handling code here:
         lopDAO.delete(tableValueSelected);
         initTable();
     }//GEN-LAST:event_jButtonXoaLopActionPerformed
 
+//    Chuyen ve home
     private void jMenuHomeActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jMenuHomeActionPerformed
         // TODO add your handling code here:
         // Ẩn frame hiện tại
@@ -433,6 +436,7 @@ public class frm_lop extends javax.swing.JFrame {
         new Main().setVisible(true);
     }//GEN-LAST:event_jMenuHomeActionPerformed
 
+//    Them Lop
     private void jButtonThemLopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonThemLopActionPerformed
         // TODO add your handling code here:
 

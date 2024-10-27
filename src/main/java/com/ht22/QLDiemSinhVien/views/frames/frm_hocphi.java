@@ -39,124 +39,6 @@ public class frm_hocphi extends JFrame {
         initComboBox();
     }
 
-//    setModel Table
-    public void setModelTable(List<HocPhi> hocPhis ){
-        DefaultTableModel tableModel = new DefaultTableModel(
-                new String[]{"Mã Học Phí","Sinh Viên", "Tên Khoản Phí", "Số Tiền", "Ngày Đóng", "Trạng Thái"}, 0
-        );
-
-
-        for (HocPhi hocPhi : hocPhis) {
-            // Thêm một hàng với các giá trị lấy từ đối tượng Lop
-            tableModel.addRow(new Object[]{
-                    hocPhi.getMaHocPhi(),
-                    hocPhi.getMaSV(),
-                    hocPhi.getTenKhoanPhi(),
-                    hocPhi.getSoTien(),
-                    hocPhi.getNgayDong(),
-                    hocPhi.getTrangThai(),
-                    hocPhi});
-        }
-
-        jTableHocPhi.setModel(tableModel);
-        jScrollPane2.setViewportView(jTableHocPhi);
-    }
-
-//    initTable
-    public void initTable(){
-//
-        List<HocPhi> hocPhis = null;
-        try {
-            hocPhis = hocPhiDao.getAll();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-//        Set model data for Table
-        setModelTable( hocPhis );
-
-//        handle click data on table
-        jTableHocPhi.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int selectedRow = jTableHocPhi.getSelectedRow(); // Lấy chỉ số hàng được chọn
-
-                if (selectedRow >= 0) { // Kiểm tra xem có hàng nào được chọn không
-
-                    String select = jTableHocPhi.getValueAt(selectedRow, 0).toString();
-                    tableValueSelected = select;
-                }
-            }
-        });
-    }
-
-//  init list
-    private void initList(){
-        //        List Khoa
-        List<SinhVien> sinhViens = sinhVienDAO.getList();
-
-        // Set List data for models
-        DefaultListModel<SinhVien> models = new DefaultListModel<>();
-
-//      add data from khoas list for models
-        for (SinhVien obj : sinhViens){
-            models.addElement(obj);
-        }
-
-//        Set models to List
-        jListSinhVien.setModel(models);
-        jScrollPane1.setViewportView(jListSinhVien);
-
-//        handle click row list
-        jListSinhVien.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int selectedRow = jListSinhVien.getSelectedIndex();
-
-                if (selectedRow >= 0) {
-
-                    String selectID = jListSinhVien.getSelectedValue().getMaSV();
-                    List<HocPhi> objList = null;
-                    try {
-                        objList = hocPhiDao.getByID(selectID);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-
-//                    show data table by id of listSelected
-                    setModelTable(objList);
-
-                }
-            }
-        });
-
-    }
-
-    // Phương thức generic để tạo model cho ComboBox từ bất kỳ danh sách nào
-    public <T> DefaultComboBoxModel<T> createModelComboBoxDiem(List<T> items) {
-        // Khởi tạo model
-        DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
-
-        // Duyệt qua danh sách và thêm vào model
-        for (T item : items) {
-            model.addElement(item); // Thêm phần tử vào ComboBoxModel
-        }
-
-        return model;
-    }
-
-    // initComboBox
-    public void initComboBox() {
-
-        List<SinhVien> sinhvien = sinhVienDAO.getList();
-        // Sử dụng phương thức generic cho cả hai loại đối tượng
-
-        DefaultComboBoxModel<SinhVien> modelSV = createModelComboBoxDiem(sinhvien);
-
-        // Gán model cho các JComboBox
-        jComboBoxTrangThai.setModel(new DefaultComboBoxModel<>(new String[] { "Đã đóng", "Chưa đóng" }));
-        jComboBoxMaSV.setModel(modelSV);
-    }
-
 
 
 
@@ -508,7 +390,127 @@ public class frm_hocphi extends JFrame {
      * Handle Clicked
      */
 
+    //    setModelTable
+    public void setModelTable(List<HocPhi> hocPhis ){
+        DefaultTableModel tableModel = new DefaultTableModel(
+                new String[]{"Mã Học Phí","Sinh Viên", "Tên Khoản Phí", "Số Tiền", "Ngày Đóng", "Trạng Thái"}, 0
+        );
 
+
+        for (HocPhi hocPhi : hocPhis) {
+            // Thêm một hàng với các giá trị lấy từ đối tượng Lop
+            tableModel.addRow(new Object[]{
+                    hocPhi.getMaHocPhi(),
+                    hocPhi.getMaSV(),
+                    hocPhi.getTenKhoanPhi(),
+                    hocPhi.getSoTien(),
+                    hocPhi.getNgayDong(),
+                    hocPhi.getTrangThai(),
+                    hocPhi});
+        }
+
+        jTableHocPhi.setModel(tableModel);
+        jScrollPane2.setViewportView(jTableHocPhi);
+    }
+
+    //    initTable
+    public void initTable(){
+//
+        List<HocPhi> hocPhis = null;
+        try {
+            hocPhis = hocPhiDao.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+//        Set model data for Table
+        setModelTable( hocPhis );
+
+//        handle click data on table
+        jTableHocPhi.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = jTableHocPhi.getSelectedRow(); // Lấy chỉ số hàng được chọn
+
+                if (selectedRow >= 0) { // Kiểm tra xem có hàng nào được chọn không
+
+                    String select = jTableHocPhi.getValueAt(selectedRow, 0).toString();
+                    tableValueSelected = select;
+                }
+            }
+        });
+    }
+
+    //  init list
+    private void initList(){
+        //        List Khoa
+        List<SinhVien> sinhViens = sinhVienDAO.getList();
+
+        // Set List data for models
+        DefaultListModel<SinhVien> models = new DefaultListModel<>();
+
+//      add data from khoas list for models
+        for (SinhVien obj : sinhViens){
+            models.addElement(obj);
+        }
+
+//        Set models to List
+        jListSinhVien.setModel(models);
+        jScrollPane1.setViewportView(jListSinhVien);
+
+//        handle click row list
+        jListSinhVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int selectedRow = jListSinhVien.getSelectedIndex();
+
+                if (selectedRow >= 0) {
+
+                    String selectID = jListSinhVien.getSelectedValue().getMaSV();
+                    List<HocPhi> objList = null;
+                    try {
+                        objList = hocPhiDao.getByID(selectID);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+//                    show data table by id of listSelected
+                    setModelTable(objList);
+
+                }
+            }
+        });
+
+    }
+
+    // Phương thức generic để tạo model cho ComboBox từ bất kỳ danh sách nào
+    public <T> DefaultComboBoxModel<T> createModelComboBoxDiem(List<T> items) {
+        // Khởi tạo model
+        DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
+
+        // Duyệt qua danh sách và thêm vào model
+        for (T item : items) {
+            model.addElement(item); // Thêm phần tử vào ComboBoxModel
+        }
+
+        return model;
+    }
+
+    // initComboBox
+    public void initComboBox() {
+
+        List<SinhVien> sinhvien = sinhVienDAO.getList();
+        // Sử dụng phương thức generic cho cả hai loại đối tượng
+
+        DefaultComboBoxModel<SinhVien> modelSV = createModelComboBoxDiem(sinhvien);
+
+        // Gán model cho các JComboBox
+        jComboBoxTrangThai.setModel(new DefaultComboBoxModel<>(new String[] { "Đã đóng", "Chưa đóng" }));
+        jComboBoxMaSV.setModel(modelSV);
+    }
+
+
+
+    //chuyển sang trang sinh viên
     private void jButtonSinhVienActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         // Ẩn frame hiện tại
@@ -522,13 +524,19 @@ public class frm_hocphi extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxTrangThaiActionPerformed
 
+//    nút xóa
     private void jButtonXoaActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButtonXoaActionPerformed
         // TODO add your handling code here:
-//        diemDAO.delete(tableValueSelected);
-//        System.out.println(tableValueSelected);
-//        initTable();
+        try {
+            hocPhiDao.delete(tableValueSelected);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(tableValueSelected);
+        initTable();
     }//GEN-LAST:event_jButtonXoaActionPerformed
 
+//    them hoc phi
     private void jButtonThemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButtonThemActionPerformed
         String tenKhoanPhiText = jTextPaneInputTenKhoanPhi.getText();
         double soTien = 0.0;
@@ -571,7 +579,7 @@ public class frm_hocphi extends JFrame {
         HocPhi hocPhi = new HocPhi(0, maSV, tenKhoanPhiText, soTien, sqlNgayDong, trangThaiSelectedItem);
 
         try {
-            // Thực hiện chèn dữ liệu vào cơ sở dữ liệu
+            // Thực hiện chèn ữd liệu vào cơ sở dữ liệu
             hocPhiDao.insert(hocPhi);
             JOptionPane.showMessageDialog(this, "Thêm học phí thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -601,6 +609,7 @@ public class frm_hocphi extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonSuaActionPerformed
 
+//    chuyển home
     private void jMenuHomeActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jMenuHomeActionPerformed
         // TODO add your handling code here:
         // Ẩn frame hiện tại

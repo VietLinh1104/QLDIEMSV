@@ -4,6 +4,7 @@
  */
 package com.nhom2.qlsv.view;
 
+import com.ht22.QLDiemSinhVien.views.frames.Main;
 import com.nhom2.qlsv.bean.DanhMucBean;
 import com.nhom3.qlsv.controller.ChuyenManHinhController;
 import java.util.ArrayList;
@@ -66,6 +67,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jpnThongKe = new javax.swing.JPanel();
         jlbThongKe = new javax.swing.JLabel();
         jpnView = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -240,8 +244,21 @@ public class MainJFrame extends javax.swing.JFrame {
         );
         jpnViewLayout.setVerticalGroup(
             jpnViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 704, Short.MAX_VALUE)
+            .addGap(0, 681, Short.MAX_VALUE)
         );
+
+        jMenu1.setText("Home");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -266,6 +283,15 @@ public class MainJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        // TODO add your handling code here:
+        // Ẩn frame hiện tại
+        setVisible(false);
+
+        // Hiển thị frame mới
+        new Main().setVisible(true);
+    }//GEN-LAST:event_jMenu1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -304,6 +330,9 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel jlbKhoaHoc;
     private javax.swing.JLabel jlbLopHoc;
