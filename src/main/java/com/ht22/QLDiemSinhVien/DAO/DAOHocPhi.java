@@ -12,12 +12,11 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
     private final Connection connection;
 
     public DAOHocPhi() {
-        // Khởi tạo connection từ lớp ConnectDB
         this.connection = ConnectDB.getConnection();
     }
 
     @Override
-    public List<HocPhi> getAll() {
+    public List<HocPhi> getAll() throws SQLException {
         List<HocPhi> hocPhiList = new ArrayList<>();
         String query = "SELECT * FROM hocphi";
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
@@ -25,14 +24,12 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
                 HocPhi hocPhi = mapResultSetToHocPhi(rs);
                 hocPhiList.add(hocPhi);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return hocPhiList;
     }
 
     @Override
-    public List<HocPhi> getAllByKhoaID(String maSV) {
+    public List<HocPhi> getAllByKhoaID(String maSV) throws SQLException {
         List<HocPhi> hocPhiList = new ArrayList<>();
         String query = "SELECT * FROM hocphi WHERE maSV = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -42,14 +39,12 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
                 HocPhi hocPhi = mapResultSetToHocPhi(rs);
                 hocPhiList.add(hocPhi);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return hocPhiList;
     }
 
     @Override
-    public Optional<HocPhi> get(int id) {
+    public Optional<HocPhi> get(int id) throws SQLException {
         String query = "SELECT * FROM hocphi WHERE MaHocPhi = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setInt(1, id);
@@ -57,13 +52,11 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
             if (rs.next()) {
                 return Optional.of(mapResultSetToHocPhi(rs));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return Optional.empty();
     }
 
-    public List<HocPhi> getByID(String id) {
+    public List<HocPhi> getByID(String id) throws SQLException {
         List<HocPhi> hocPhiList = new ArrayList<>();
         String query = "SELECT * FROM hocphi WHERE maSV = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -73,8 +66,6 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
                 HocPhi hocPhi = mapResultSetToHocPhi(rs);
                 hocPhiList.add(hocPhi);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return hocPhiList;
     }
@@ -99,7 +90,7 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
     }
 
     @Override
-    public Boolean update(HocPhi hocPhi) {
+    public Boolean update(HocPhi hocPhi) throws SQLException {
         String query = "UPDATE hocphi SET maSV = ?, TenKhoanPhi = ?, SoTien = ?, NgayDong = ?, TrangThai = ? WHERE MaHocPhi = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, hocPhi.getMaSV());
@@ -109,22 +100,16 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
             pstmt.setString(5, hocPhi.getTrangThai());
             pstmt.setInt(6, hocPhi.getMaHocPhi());
             return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return false;
     }
 
     @Override
-    public Boolean delete(String maLop) {
+    public Boolean delete(String maLop) throws SQLException {
         String query = "DELETE FROM hocphi WHERE maSV = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setString(1, maLop);
             return pstmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return false;
     }
 
     private HocPhi mapResultSetToHocPhi(ResultSet rs) throws SQLException {
@@ -138,3 +123,4 @@ public class DAOHocPhi implements DaoInterface<HocPhi> {
         return hocPhi;
     }
 }
+

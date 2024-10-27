@@ -8,10 +8,11 @@ import com.ht22.QLDiemSinhVien.DAO.DAODiem;
 import com.ht22.QLDiemSinhVien.DAO.DAOSubject;
 import com.ht22.QLDiemSinhVien.entity.Diem;
 import com.ht22.QLDiemSinhVien.entity.Subject;
+import com.nhom2.qlsv.dao.SinhVienDAOImpl;
+import com.nhom2.qlsv.model.SinhVien;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -25,6 +26,7 @@ public class frm_diem extends javax.swing.JFrame {
 
     DAOSubject DAOSubject = new DAOSubject();
     DAODiem diemDAO = new DAODiem();
+    SinhVienDAOImpl sinhVienDAO = new SinhVienDAOImpl();
     private String tableValueSelected;
 
 
@@ -134,15 +136,15 @@ public class frm_diem extends javax.swing.JFrame {
     // Phương thức khởi tạo ComboBox với dữ liệu
     public void initComboBox() {
         List<Subject> subjects = DAOSubject.getAll();
-//        List<SinhVien> sinhvien = DaoSinhVien.getAll();
+        List<SinhVien> sinhvien = sinhVienDAO.getList();
 
         // Sử dụng phương thức generic cho cả hai loại đối tượng
         DefaultComboBoxModel<Subject> modelSJ = createModelComboBoxDiem(subjects);
-//        DefaultComboBoxModel<SinhVien> modelSV = createModelComboBoxDiem(sinhvien);
+        DefaultComboBoxModel<SinhVien> modelSV = createModelComboBoxDiem(sinhvien);
 
         // Gán model cho các JComboBox
         jComboBoxDiem.setModel(modelSJ);
-//        jComboBoxMaSV.setModel(modelSV);
+        jComboBoxMaSV.setModel(modelSV);
     }
 
 
@@ -185,7 +187,7 @@ public class frm_diem extends javax.swing.JFrame {
         jTextPaneInputDiemChu = new javax.swing.JTextPane();
         jPanelInputMaLop2 = new javax.swing.JPanel();
         jLabelInputKhoa1 = new javax.swing.JLabel();
-        jComboBoxMaSV = new javax.swing.JComboBox<>();
+        jComboBoxMaSV = new JComboBox<SinhVien>();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuHome = new javax.swing.JMenu();
         jMenuBack = new javax.swing.JMenu();
@@ -358,12 +360,7 @@ public class frm_diem extends javax.swing.JFrame {
 
         jLabelInputKhoa1.setText("Mã Sinh Viên");
 
-        jComboBoxMaSV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SV001", "SV002", "SV003", "SV004" }));
-        jComboBoxMaSV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxMaSVActionPerformed(evt);
-            }
-        });
+
 
         javax.swing.GroupLayout jPanelInputMaLop2Layout = new javax.swing.GroupLayout(jPanelInputMaLop2);
         jPanelInputMaLop2.setLayout(jPanelInputMaLop2Layout);
@@ -556,12 +553,12 @@ public class frm_diem extends javax.swing.JFrame {
         Subject selectedDiem = (Subject) jComboBoxDiem.getSelectedItem();
         String maHocPhan = selectedDiem.getMaHocPhan();
 
-        String selectedMaSV = (String) jComboBoxMaSV.getSelectedItem();
-//        String maHocPhan = selectedMaSV.getMaHocPhan();
+        SinhVien selectedMaSV = (SinhVien) jComboBoxMaSV.getSelectedItem();
+        String maSV = selectedMaSV.getMaSV();
 
 
         //  Create object from form input
-        Diem diem = new Diem( 0,  selectedMaSV,  maHocPhan,  Integer.parseInt(solanthi),  Float.parseFloat(diemgiuaki), Float.parseFloat( diemcuoiki),  diemchu);
+        Diem diem = new Diem( 0,  maSV,  maHocPhan,  Integer.parseInt(solanthi),  Float.parseFloat(diemgiuaki), Float.parseFloat( diemcuoiki),  diemchu);
 
         try {
 //            DAO insert
@@ -627,7 +624,7 @@ public class frm_diem extends javax.swing.JFrame {
     private javax.swing.JButton jButtonThemDiem;
     private javax.swing.JButton jButtonXoaDiem;
     private JComboBox<Subject> jComboBoxDiem;
-    private javax.swing.JComboBox<String> jComboBoxMaSV;
+    private JComboBox<SinhVien> jComboBoxMaSV;
     private javax.swing.JLabel jLabelDiem;
     private javax.swing.JLabel jLabelInputKhoa;
     private javax.swing.JLabel jLabelInputKhoa1;

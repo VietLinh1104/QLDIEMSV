@@ -14,6 +14,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,7 +65,12 @@ public class frm_hocphi extends JFrame {
 //    initTable
     public void initTable(){
 //
-        List<HocPhi> hocPhis = hocPhiDao.getAll();
+        List<HocPhi> hocPhis = null;
+        try {
+            hocPhis = hocPhiDao.getAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 //        Set model data for Table
         setModelTable( hocPhis );
 
@@ -105,7 +115,12 @@ public class frm_hocphi extends JFrame {
                 if (selectedRow >= 0) {
 
                     String selectID = jListSinhVien.getSelectedValue().getMaSV();
-                    List<HocPhi> objList = hocPhiDao.getByID(selectID);
+                    List<HocPhi> objList = null;
+                    try {
+                        objList = hocPhiDao.getByID(selectID);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
 
 //                    show data table by id of listSelected
                     setModelTable(objList);
@@ -237,7 +252,7 @@ public class frm_hocphi extends JFrame {
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabelInputNgayDong.setText("Ngày đóng");
+        jLabelInputNgayDong.setText("Ngày đóng(dd/MM/yyyy)");
 
         jScrollPane4.setViewportView(jTextPaneInputNgayDong);
 
@@ -515,42 +530,68 @@ public class frm_hocphi extends JFrame {
     }//GEN-LAST:event_jButtonXoaActionPerformed
 
     private void jButtonThemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButtonThemActionPerformed
-        // TODO add your handling code here:
+        String tenKhoanPhiText = jTextPaneInputTenKhoanPhi.getText();
+        double soTien = 0.0;
+        java.sql.Date sqlNgayDong = null;
 
-//        String diemgiuaki = jTextPaneInputDiemGiuaKy.getText();
-//        String diemcuoiki = jTextPaneInputCuoiKy.getText();
-//        String solanthi = jTextPaneInputLanThi.getText();
-//        String diemchu = jTextPaneInputDiemChu.getText();
-//
-////        get Khoa ID from comboBox selected
-//        Subject selectedDiem = (Subject) jComboBoxDiem.getSelectedItem();
-//        String maHocPhan = selectedDiem.getMaHocPhan();
-//
-//        String selectedMaSV = (String) jComboBoxMaSV.getSelectedItem();
-////        String maHocPhan = selectedMaSV.getMaHocPhan();
-//
-//
-//        //  Create object from form input
-//        Diem diem = new Diem( 0,  selectedMaSV,  maHocPhan,  Integer.parseInt(solanthi),  Float.parseFloat(diemgiuaki), Float.parseFloat( diemcuoiki),  diemchu);
-//
-//        try {
-////            DAO insert
-//            diemDAO.insert(diem);
-//        } catch (SQLIntegrityConstraintViolationException e) {
-//            // Lỗi trùng khóa chính (hoặc unique key)
-//            JOptionPane.showMessageDialog(this, "Mã lớp đã tồn tại. Vui lòng nhập mã lớp khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            // Lỗi chung liên quan đến cơ sở dữ liệu
-//            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi thêm dữ liệu: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-//        } catch (Exception e) {
-//            // Bắt các ngoại lệ khác nếu có
-//            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi không xác định: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-//        }
+        // Chuyển đổi số tiền từ chuỗi thành số thực
+        try {
+            soTien = Double.parseDouble(jTextPaneInputSoTien.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Số tiền không hợp lệ. Vui lòng nhập giá trị số.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Chuyển đổi chuỗi ngày đóng thành kiểu Date và sau đó sang java.sql.Date
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date ngayDongText = dateFormat.parse(jTextPaneInputNgayDong.getText());
+            sqlNgayDong = new java.sql.Date(ngayDongText.getTime()); // Chuyển đổi sang java.sql.Date
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Ngày đóng không hợp lệ. Vui lòng nhập theo định dạng dd/MM/yyyy.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Lấy mã sinh viên từ comboBox
+        SinhVien selected = (SinhVien) jComboBoxMaSV.getSelectedItem();
+        if (selected == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn mã sinh viên.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String maSV = selected.getMaSV();
+
+        // Lấy trạng thái từ comboBox
+        String trangThaiSelectedItem = (String) jComboBoxTrangThai.getSelectedItem();
+        if (trangThaiSelectedItem == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn trạng thái.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Tạo đối tượng HocPhi từ dữ liệu đầu vào
+        HocPhi hocPhi = new HocPhi(0, maSV, tenKhoanPhiText, soTien, sqlNgayDong, trangThaiSelectedItem);
+
+        try {
+            // Thực hiện chèn dữ liệu vào cơ sở dữ liệu
+            hocPhiDao.insert(hocPhi);
+            JOptionPane.showMessageDialog(this, "Thêm học phí thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            // Lỗi trùng khóa chính
+            JOptionPane.showMessageDialog(this, "Mã sinh viên đã tồn tại. Vui lòng nhập mã khác.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // Lỗi cơ sở dữ liệu
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi thêm dữ liệu: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (Exception e) {
+            // Bắt các ngoại lệ khác
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi không xác định: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
 
         // Cập nhật lại bảng sau khi thêm thành công
         initTable();
     }//GEN-LAST:event_jButtonThemActionPerformed
+
 
     private void jComboBoxMaSVActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jComboBoxMaSVActionPerformed
         // TODO add your handling code here:
